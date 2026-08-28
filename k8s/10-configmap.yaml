@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: petclinic-config
+  namespace: petclinic
+data:
+  SPRING_PROFILES_ACTIVE: "mysql"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://test-db.c8virbypceqh.ap-northeast-2.rds.amazonaws.com:3306/petclinic"
+  SPRING_APPLICATION_JSON: |
+    {
+      "management.endpoint.health.probes.add-additional-paths": true
+    }

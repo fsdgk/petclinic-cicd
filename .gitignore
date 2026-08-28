@@ -46,3 +46,13 @@ out/
 _site/
 *.css
 !petclinic.css
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+
+# Kubernetes secrets
+k8s/11-secret.yaml
