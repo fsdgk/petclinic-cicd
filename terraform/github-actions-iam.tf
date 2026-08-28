@@ -24,11 +24,11 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
 
       values = [
-        "repo:fsdgk/petclinic-cicd:*"
+        "repo:fsdgk@165973166/petclinic-cicd@1349089873:ref:refs/heads/main"
       ]
     }
   }
