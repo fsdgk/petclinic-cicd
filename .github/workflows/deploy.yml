@@ -20,6 +20,29 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Debug OIDC claims
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, urllib.request
+
+          url = os.environ["ACTIONS_ID_TOKEN_REQUEST_URL"] + "&audience=sts.amazonaws.com"
+          token_request = urllib.request.Request(
+              url,
+              headers={"Authorization": "bearer " + os.environ["ACTIONS_ID_TOKEN_REQUEST_TOKEN"]},
+          )
+
+          token = json.load(urllib.request.urlopen(token_request))["value"]
+          payload = token.split(".")[1]
+          payload += "=" * (-len(payload) % 4)
+
+          claims = json.loads(base64.urlsafe_b64decode(payload))
+          print("iss:", claims.get("iss"))
+          print("aud:", claims.get("aud"))
+          print("sub:", claims.get("sub"))
+          print("repository:", claims.get("repository"))
+          print("ref:", claims.get("ref"))
+          PY
+
       - uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::764643926176:role/petclinic-github-actions-deploy
